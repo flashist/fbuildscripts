@@ -9,7 +9,6 @@
   },
   "main": "gulpfile.js",
   "scripts": {
-    "build": "gulp build-fbuildscripts"
   },
   "dependencies": {
     "gulp": "^4.0.2",
