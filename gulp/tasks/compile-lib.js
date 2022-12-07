@@ -2,7 +2,7 @@ var gulp = require("gulp");
 var exec = require('gulp-exec');
 
 gulp.task(
-    "compile-lib",
+    "compile",
     function (cb) {
 
         return gulp.src(".", { read: false })
