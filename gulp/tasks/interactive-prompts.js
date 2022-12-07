@@ -140,3 +140,4 @@ const suggestByAutocompleteScore = async (input, choices) => {
 
     return result;
 }
+exports.suggestByAutocompleteScore = suggestByAutocompleteScore;
