@@ -1,27 +1,25 @@
 var gulp = require("gulp");
-var shell = require('gulp-shell');
+var exec = require('gulp-exec');
 
 gulp.task(
     "compile-lib",
     function (cb) {
 
-        gulp.src(".", {read: false})
+        return gulp.src(".", { read: false })
             .pipe(
-                shell(
-                    ["tsc"]
-                )
+                exec("tsc --color")
+            )
+            .on(
+                "end",
+                function () {
+                    cb();
+                }
 
             ).on(
-            "end",
-            function () {
-                cb();
-            }
-
-        ).on(
-            "error",
-            function () {
-                console.error("ERROR! compile.js");
-            }
-        );
+                "error",
+                function () {
+                    console.error("ERROR! compile.js");
+                }
+            );
     }
 );

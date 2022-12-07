@@ -1,6 +1,7 @@
 var gulp = require("gulp");
-var requireDir = require("require-dir");
+var exec = require('child_process').exec;
 
+var requireDir = require("require-dir");
 var tasks = requireDir("./gulp/tasks");
 
 gulp.task(
@@ -8,8 +9,7 @@ gulp.task(
     gulp.series(
         "clean-dist",
         // "generate-definitions",
-        "copy-to-dist-fbuildscripts",
-        "compile-lib"
+        "copy-to-dist-fbuildscripts"
     )
 );
 
