@@ -7,8 +7,7 @@
     "type": "git",
     "url": "https://github.com/flashist/fcore"
   },
-  "main": "index.js",
-  "typings": "index.d.ts",
+  "main": "gulpfile.js",
   "scripts": {
     "build-fbuildscripts": "",
     "build": "gulp",
