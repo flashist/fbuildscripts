@@ -1,6 +1,6 @@
 {
   "name": "@flashist/fbuildscripts",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "license": "MIT",
   "private": false,
   "repository": {
@@ -8,8 +8,7 @@
     "url": "https://github.com/flashist/fcore"
   },
   "main": "gulpfile.js",
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {
     "gulp": "^4.0.2",
     "gulp-exec": "^5.0.0",
