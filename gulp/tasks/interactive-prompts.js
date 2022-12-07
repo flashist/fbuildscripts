@@ -41,19 +41,13 @@ gulp.task(
 
         const response = await prompts(promptsConfig);
         console.log("response: ", response);
-        if (response.value.indexOf("npm run") !== -1) {
-            // run(response.value).exec([], cb);
-            const tempCmd = new run.Command('npm run build:prod', { verbosity: 3 });
-            tempCmd.exec('', () => { cb(); });
-
-        } else {
-            gulp.task(response.value)(
-                () => {
-                    // console.log("END gulp.task");
-                    cb();
-                }
-            );
-        }
+        
+        gulp.task(response.value)(
+            () => {
+                // console.log("END gulp.task");
+                cb();
+            }
+        );
 
         // console.log(gulp);
     }
