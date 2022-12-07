@@ -42,7 +42,7 @@ gulp.task(
         const response = await prompts(promptsConfig);
         console.log("response: ", response);
 
-        return gulp.task(response.value)();
+        return gulp.task(response.value)(cb);
 
         // console.log(gulp);
     }
