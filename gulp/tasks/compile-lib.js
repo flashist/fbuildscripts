@@ -7,7 +7,7 @@ gulp.task(
 
         return gulp.src(".", { read: false })
             .pipe(
-                exec("tsc --color")
+                exec("tsc")
             )
             .on(
                 "end",
@@ -17,8 +17,8 @@ gulp.task(
 
             ).on(
                 "error",
-                function () {
-                    console.error("ERROR! compile.js");
+                function (err) {
+                    console.error("ERROR: ", err);
                 }
             );
     }
