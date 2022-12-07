@@ -107,7 +107,8 @@ const suggestByAutocompleteScore = async (input, choices) => {
             tempChoice.autocompleteScore = 0;
 
             tempChoice.isFullInputMatch = false;
-            const fullInputIndex = tempChoice.title.indexOf(input);
+            const visualTitle = tempChoice.title;
+            const fullInputIndex = visualTitle.indexOf(input);
             if (fullInputIndex !== -1) {
                 tempChoice.autocompleteScore = Number.MAX_SAFE_INTEGER;
                 tempChoice.autocompleteScore -= fullInputIndex;
@@ -119,7 +120,7 @@ const suggestByAutocompleteScore = async (input, choices) => {
                 const inputLettersCount = input.length;
                 for (let inputLetterIndex = 0; inputLetterIndex < inputLettersCount; inputLetterIndex++) {
                     const tempLetter = input.charAt(inputLetterIndex);
-                    if (tempChoice.title.indexOf(tempLetter) !== -1) {
+                    if (visualTitle.indexOf(tempLetter) !== -1) {
                         tempChoice.autocompleteScore++;
                     }
                 }

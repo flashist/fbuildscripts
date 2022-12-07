@@ -7,14 +7,6 @@ var prompts = require("prompts");
 // var suggestByAutocompleteScore = tasks.suggestByAutocompleteScore;
 var suggestByAutocompleteScore = require("./interactive-prompts").suggestByAutocompleteScore
 
-const npmLibNames = [
-    "@flashist/fbuildscripts",
-    "@flashist/fcore",
-    "@flashist/flibs",
-    "@flashist/fconsole",
-    "@flashist/appframework",
-]
-
 gulp.task(
     "npm:dependencies:update",
     async (cb) => {
@@ -23,8 +15,13 @@ gulp.task(
             type: 'autocomplete',
             name: 'value',
             message: 'Choose the lib to update',
-            choices: npmLibNames,
-            limit: 15,
+            choices: [
+                { title: "@flashist/fbuildscripts" },
+                { title: "@flashist/fcore" },
+                { title: "@flashist/flibs" },
+                { title: "@flashist/fconsole" },
+                { title: "@flashist/appframework" },
+            ],
             suggest: suggestByAutocompleteScore
         });
 
