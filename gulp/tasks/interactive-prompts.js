@@ -48,6 +48,8 @@ gulp.task(
     }
 );
 
+//
+
 const chooseFolder = async (parentFolderPath) => {
     const listOfFolderNames = fs.readdirSync(parentFolderPath, { withFileTypes: true })
         .filter((element) => { return element.isDirectory() })
