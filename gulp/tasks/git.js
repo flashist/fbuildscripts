@@ -25,7 +25,7 @@ gulp.task(
 gulp.task(
     "git-push-all",
     async (cb) => {
-        exec(`git push"${response.value}"`,
+        exec(`git push`,
             function (err, stdout, stderr) {
                 console.log(stdout);
                 console.log(stderr);
