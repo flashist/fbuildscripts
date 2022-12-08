@@ -28,6 +28,7 @@ gulp.task(
         const versionResponse = await prompts({
             type: 'text',
             name: 'value',
+            initial: 'latest',
             message: 'Choose the version to install'
         });
 
