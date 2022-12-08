@@ -21,3 +21,16 @@ gulp.task(
         );
     }
 );
+
+gulp.task(
+    "git-push-all",
+    async (cb) => {
+        exec(`git push"${response.value}"`,
+            function (err, stdout, stderr) {
+                console.log(stdout);
+                console.log(stderr);
+                cb(err);
+            }
+        );
+    }
+);
