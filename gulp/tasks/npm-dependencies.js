@@ -32,7 +32,9 @@ gulp.task(
             message: 'Choose the version to install'
         });
 
-        return exec(`npm i ${libResponse.value}@${versionResponse.value} --no-save`,
+        const dependencyVersion = `${libResponse.value}@${versionResponse.value}`;
+        console.log("Version to install: ", dependencyVersion);
+        return exec(`npm i ${dependencyVersion} --no-save`,
             function (err, stdout, stderr) {
                 console.log(stdout);
                 console.log(stderr);
