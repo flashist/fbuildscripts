@@ -1,6 +1,8 @@
 var gulp = require("gulp");
 var exec = require("child_process").exec;
 var prompts = require("prompts");
+var fs = require('fs');
+var path = require('path');
 
 // var requireDir = require("require-dir");
 // var tasks = requireDir("./");
@@ -51,6 +53,9 @@ gulp.task(
 gulp.task(
     "npm:all-dependencies:update-to-latest",
     async (cb) => {
+
+        fs.unlinkSync('./package-lock.json');
+
         const libNamesCount = dependencyLibNames.length;
         for (let libNameIndex = 0; libNameIndex < libNamesCount; libNameIndex++) {
             const singleLibName = dependencyLibNames[libNameIndex];
