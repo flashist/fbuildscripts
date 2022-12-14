@@ -54,7 +54,7 @@ gulp.task(
         const libNamesCount = dependencyLibNames.length;
         for (let libNameIndex = 0; libNameIndex < libNamesCount; libNameIndex++) {
             const singleLibName = dependencyLibNames[libNameIndex];
-            await updateLibToVersion(singleLibName, "version");
+            await updateLibToVersion(singleLibName, "latest");
         }
     }
 );
