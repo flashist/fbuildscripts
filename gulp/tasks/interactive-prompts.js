@@ -34,6 +34,7 @@ gulp.task(
             type: 'autocomplete',
             name: 'value',
             message: 'Choose gulp task to run',
+            initial: 'build',
             choices: [...allNpmScriptNamesPromptSuggestions, ...allGulpTaskPromptSuggestions],
             limit: 15,
             suggest: suggestByAutocompleteScore
