@@ -54,6 +54,7 @@ gulp.task(
     "npm:all-dependencies:update-to-latest",
     async (cb) => {
 
+        console.log("Removing the package-lock file");
         fs.unlinkSync('./package-lock.json');
 
         const libNamesCount = dependencyLibNames.length;
