@@ -12,3 +12,13 @@ gulp.task(
         "compile"
     )
 );
+
+gulp.task(
+    'build-and-publish-module',
+    gulp.series(
+        "build",
+        "git-commit-all",
+        "npm:publish:patch",
+        "git-push-all"
+    )
+);
