@@ -39,3 +39,16 @@ gulp.task(
         );
     }
 );
+
+gulp.task(
+    "npm:publish:prerelease",
+    (cb) => {
+        return exec('npm version prerelease && gulp build && cd ./dist && npm publish',
+            function (err, stdout, stderr) {
+                console.log(stdout);
+                console.log(stderr);
+                cb(err);
+            }
+        );
+    }
+);
