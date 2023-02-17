@@ -7,7 +7,7 @@ gulp.task(
     'build',
     gulp.series(
         "clean-dist",
-        // "generate-definitions",
+        "generate-definitions",
         "copy-to-dist",
         "compile"
     )
