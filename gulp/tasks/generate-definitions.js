@@ -10,7 +10,7 @@ gulp.task(
 
         return new Promise(
             (resolve) => {
-                exec(`git add -A && git commit -m "Update"`,
+                exec(`npx ctix create -p ./tsconfig.json --overwrite --noBackup`,
                     function (err, stdout, stderr) {
                         console.log(stdout);
                         console.log(stderr);
