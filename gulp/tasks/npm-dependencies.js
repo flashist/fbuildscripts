@@ -12,6 +12,23 @@ var suggestByAutocompleteScore = require("./interactive-prompts").suggestByAutoc
 const dependencyLibNames = ["@flashist/fbuildscripts", "@flashist/fcore", "@flashist/flibs", "@flashist/fconsole", "@flashist/appframework"]
 
 gulp.task(
+    "npm:dependencies:hard-reset",
+    async (cb) => {
+
+        await removeNodeModules();
+        await removePackageLock();
+
+        await exec(`npm i --no-save`,
+            function (err, stdout, stderr) {
+                if (err) {
+                    console.error(err);
+                }
+            }
+        );
+    }
+);
+
+gulp.task(
     "npm:dependencies:update",
     async (cb) => {
 
@@ -54,10 +71,7 @@ gulp.task(
     "npm:all-dependencies:update-to-latest",
     async (cb) => {
 
-        console.log("Removing the package-lock file");
-        if (fs.existsSync('./package-lock.json')) {
-            fs.unlinkSync('./package-lock.json');
-        }
+        await removePackageLock();
 
         const libNamesCount = dependencyLibNames.length;
         for (let libNameIndex = 0; libNameIndex < libNamesCount; libNameIndex++) {
@@ -67,16 +81,30 @@ gulp.task(
     }
 );
 
-var updateLibToVersion = (libName, version) => {
-    return new Promise(
-        (resolve) => {
-            const dependencyVersion = `${libName}@${version}`;
-            console.log("Version to install: ", dependencyVersion);
-            exec(`npm i ${dependencyVersion} --no-save`,
-                function (err, stdout, stderr) {
-                    resolve(err);
-                }
-            );
+
+
+var removePackageLock = async () => {
+    console.log("Removing the package-lock file");
+    if (fs.existsSync('./package-lock.json')) {
+        fs.unlinkSync('./package-lock.json');
+    }
+}
+
+var removeNodeModules = async () => {
+    console.log("Removing the node_modules folder");
+    if (fs.existsSync('./node_modules')) {
+        fs.rmSync('./node_modules', { recursive: true, force: true });
+    }
+}
+
+var updateLibToVersion = async (libName, version) => {
+    const dependencyVersion = `${libName}@${version}`;
+    console.log("Version to install: ", dependencyVersion);
+    await exec(`npm i ${dependencyVersion} --no-save`,
+        function (err, stdout, stderr) {
+            if (err) {
+                console.error(err);
+            }
         }
-    )
+    );
 }
