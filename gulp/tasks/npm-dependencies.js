@@ -17,7 +17,7 @@ gulp.task(
 
         const libNamesConvertedToChoices = dependencyLibNames.map(
             (singleLibName) => {
-                return {title: singleLibName}
+                return { title: singleLibName }
             }
         );
 
@@ -55,7 +55,9 @@ gulp.task(
     async (cb) => {
 
         console.log("Removing the package-lock file");
-        fs.unlinkSync('./package-lock.json');
+        if (fs.existsSync('./package-lock.json')) {
+            fs.unlinkSync('./package-lock.json');
+        }
 
         const libNamesCount = dependencyLibNames.length;
         for (let libNameIndex = 0; libNameIndex < libNamesCount; libNameIndex++) {
