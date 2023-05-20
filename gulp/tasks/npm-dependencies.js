@@ -13,16 +13,23 @@ const dependencyLibNames = ["@flashist/fbuildscripts", "@flashist/fcore", "@flas
 
 gulp.task(
     "npm:dependencies:hard-reset",
-    async (cb) => {
+    async (u) => {
 
         await removeNodeModules();
         await removePackageLock();
 
-        await exec(`npm i --no-save`,
-            function (err, stdout, stderr) {
-                if (err) {
-                    console.error(err);
-                }
+        await new Promise(
+            (resolve) => {
+                console.log("Installing all dependencies");
+                exec(`npm i --no-save`,
+                    function (err, stdout, stderr) {
+                        if (err) {
+                            console.error(err);
+                        }
+
+                        resolve();
+                    }
+                );
             }
         );
     }
@@ -73,11 +80,27 @@ gulp.task(
 
         await removePackageLock();
 
-        const libNamesCount = dependencyLibNames.length;
-        for (let libNameIndex = 0; libNameIndex < libNamesCount; libNameIndex++) {
-            const singleLibName = dependencyLibNames[libNameIndex];
-            await updateLibToVersion(singleLibName, "latest");
+        const packageJson = JSON.parse(fs.readFileSync('./package.json'));
+
+        const allDependencyKeys = [];
+        if (packageJson.dependencies) {
+            allDependencyKeys.push(...Object.keys(packageJson.dependencies));
         }
+        if (packageJson.devDependencies) {
+            allDependencyKeys.push(...Object.keys(packageJson.devDependencies));
+        }
+
+        for (let singleDependencyKey of allDependencyKeys) {
+            if (singleDependencyKey.indexOf("@flashist") !== -1) {
+                await updateLibToVersion(singleDependencyKey, "latest");
+            }
+        }
+
+        // const libNamesCount = dependencyLibNames.length;
+        // for (let libNameIndex = 0; libNameIndex < libNamesCount; libNameIndex++) {
+        //     const singleLibName = dependencyLibNames[libNameIndex];
+        //     await updateLibToVersion(singleLibName, "latest");
+        // }
     }
 );
 
@@ -99,12 +122,18 @@ var removeNodeModules = async () => {
 
 var updateLibToVersion = async (libName, version) => {
     const dependencyVersion = `${libName}@${version}`;
-    console.log("Version to install: ", dependencyVersion);
-    await exec(`npm i ${dependencyVersion} --no-save`,
-        function (err, stdout, stderr) {
-            if (err) {
-                console.error(err);
-            }
+    console.log("Installing a module: ", dependencyVersion);
+    await new Promise(
+        (resolve) => {
+            exec(`npm i ${dependencyVersion} --no-save`,
+                function (err, stdout, stderr) {
+                    if (err) {
+                        console.error(err);
+                    }
+
+                    resolve();
+                }
+            );
         }
     );
 }
