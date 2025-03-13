@@ -10,7 +10,7 @@ gulp.task(
 
         return new Promise(
             (resolve) => {
-                exec(`npx ctix create -p ./tsconfig.json --overwrite --noBackup`,
+                exec(`npx ctix build --mode create -p ./tsconfig.json --start-from ./src`,
                     function (err, stdout, stderr) {
                         console.log(stdout);
                         console.log(stderr);
