@@ -10,13 +10,13 @@
   "main": "gulpfile.js",
   "scripts": {},
   "dependencies": {
-    "gulp": "^4.0.2",
+    "gulp": "^5.0.0",
     "gulp-exec": "^5.0.0",
     "prompts": "^2.4.2",
     "require-dir": "^1.2.0",
-    "rimraf": "^3.0.2"
+    "rimraf": "^6.0.1"
   },
   "devDependencies": {
-    "typescript": "^4.9.3"
+    "typescript": "^5.8.2"
   }
 }
