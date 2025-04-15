@@ -17,6 +17,7 @@
     "rimraf": "^6.0.1"
   },
   "devDependencies": {
+    "ctix": "^2.7.1",
     "typescript": "^5.8.2"
   }
 }
