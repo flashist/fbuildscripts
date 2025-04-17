@@ -10,7 +10,7 @@ gulp.task(
 
         return new Promise(
             (resolve) => {
-                exec(`npx ctix build --start-from ./src`,
+                exec(`npx ctix build --mode bundle -p ./tsconfig.json -o ./src`,
                     function (err, stdout, stderr) {
                         console.log(stdout);
                         console.log(stderr);
