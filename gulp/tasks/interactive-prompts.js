@@ -40,17 +40,17 @@ gulp.task(
             suggest: suggestByAutocompleteScore
         };
 
-        console.log("global.fbuildscripts_initial: ", global.fbuildscripts_initial);
+        // console.log("global.fbuildscripts_initial: ", global.fbuildscripts_initial);
         if (global.fbuildscripts_initial) {
             let terminalAutocompleteSuggestionsList = await suggestByAutocompleteScore(global.fbuildscripts_initial, promptsConfig.choices);
-            console.log("terminalAutocompleteSuggestion: ", terminalAutocompleteSuggestionsList);
+            // console.log("terminalAutocompleteSuggestion: ", terminalAutocompleteSuggestionsList);
             if (terminalAutocompleteSuggestionsList && terminalAutocompleteSuggestionsList.length > 0) {
                 promptsConfig.initial = terminalAutocompleteSuggestionsList[0].title;
             }
         }
 
         const response = await prompts(promptsConfig);
-        console.log("response: ", response);
+        // console.log("response: ", response);
 
         return gulp.task(response.value)(cb);
     }
