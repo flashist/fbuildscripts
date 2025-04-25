@@ -1,6 +1,10 @@
 var gulp = require("gulp");
 const prompts = require('prompts');
 
+var minimist = require('minimist');
+var terminalArgs = minimist(process.argv.slice(2));
+console.log("terminalArgs: ", terminalArgs);
+
 gulp.task(
     "prompts-choose-task",
     async (cb) => {
@@ -40,12 +44,18 @@ gulp.task(
             suggest: suggestByAutocompleteScore
         };
 
+        if (terminalArgs.initialTask) {
+            let terminalAutocompleteSuggestionsList = await suggestByAutocompleteScore(terminalArgs.initialTask, promptsConfig.choices);
+            console.log("terminalAutocompleteSuggestion: ", terminalAutocompleteSuggestionsList);
+            if (terminalAutocompleteSuggestionsList && terminalAutocompleteSuggestionsList.length > 0) {
+                promptsConfig.initial = terminalAutocompleteSuggestionsList[0].title;
+            }
+        }
+
         const response = await prompts(promptsConfig);
         console.log("response: ", response);
 
         return gulp.task(response.value)(cb);
-
-        // console.log(gulp);
     }
 );
 

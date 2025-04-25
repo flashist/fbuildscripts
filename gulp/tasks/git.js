@@ -3,7 +3,7 @@ var exec = require("child_process").exec;
 var prompts = require("prompts");
 
 gulp.task(
-    "git-commit-all-with-default-message",
+    "git:commit-all-with-default-message",
     async (cb) => {
         exec(`git add -A && git commit -m "Update"`,
             function (err, stdout, stderr) {
@@ -16,7 +16,7 @@ gulp.task(
 );
 
 gulp.task(
-    "git-commit-all",
+    "git:commit-all",
     async (cb) => {
         const response = await prompts({
             type: 'text',
@@ -36,7 +36,7 @@ gulp.task(
 );
 
 gulp.task(
-    "git-push-all",
+    "git:push-all",
     async (cb) => {
         exec(`git push`,
             function (err, stdout, stderr) {

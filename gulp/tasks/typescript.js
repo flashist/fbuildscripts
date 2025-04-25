@@ -5,7 +5,7 @@ var glob = require("glob");
 var exec = require("child_process").exec;
 
 gulp.task(
-    "test-typescript",
+    "typescript:test",
     async () => {
 
         return new Promise(

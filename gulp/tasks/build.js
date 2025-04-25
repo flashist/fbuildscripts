@@ -17,8 +17,8 @@ gulp.task(
     'build-and-publish-module',
     gulp.series(
         "build",
-        "git-commit-all-with-default-message",
+        "git:commit-all-with-default-message",
         "npm:publish:patch",
-        "git-push-all"
+        "git:push-all"
     )
 );
