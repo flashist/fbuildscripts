@@ -1,5 +1,47 @@
 var gulp = require("gulp");
 var exec = require("child_process").exec;
+var prompts = require("prompts");
+var fs = require('fs');
+var path = require('path');
+
+// var requireDir = require("require-dir");
+// var tasks = requireDir("./");
+// var suggestByAutocompleteScore = tasks.suggestByAutocompleteScore;
+var suggestByAutocompleteScore = require("./interactive-prompts").suggestByAutocompleteScore
+
+const dependencyLibNames = ["@flashist/fbuildscripts", "@flashist/fcore", "@flashist/flibs", "@flashist/fconsole", "@flashist/appframework"]
+
+var removePackageLock = async () => {
+    console.log("Removing the package-lock file");
+    if (fs.existsSync('./package-lock.json')) {
+        fs.unlinkSync('./package-lock.json');
+    }
+}
+
+var removeNodeModules = async () => {
+    console.log("Removing the node_modules folder");
+    if (fs.existsSync('./node_modules')) {
+        fs.rmSync('./node_modules', { recursive: true, force: true });
+    }
+}
+
+var updateLibToVersion = async (libName, version) => {
+    const dependencyVersion = `${libName}@${version}`;
+    console.log("Installing a module: ", dependencyVersion);
+    await new Promise(
+        (resolve) => {
+            exec(`npm i ${dependencyVersion} --no-save`,
+                function (err, stdout, stderr) {
+                    if (err) {
+                        console.error(err);
+                    }
+
+                    resolve();
+                }
+            );
+        }
+    );
+}
 
 gulp.task(
     "npm:publish:patch",
@@ -8,50 +50,7 @@ gulp.task(
             function (err, stdout, stderr) {
                 console.log(stdout);
                 console.log(stderr);
-                cb(err); var gulp = require("gulp");
-                var exec = require("child_process").exec;
-                var prompts = require("prompts");
-                var fs = require('fs');
-                var path = require('path');
-
-                // var requireDir = require("require-dir");
-                // var tasks = requireDir("./");
-                // var suggestByAutocompleteScore = tasks.suggestByAutocompleteScore;
-                var suggestByAutocompleteScore = require("./interactive-prompts").suggestByAutocompleteScore
-
-                const dependencyLibNames = ["@flashist/fbuildscripts", "@flashist/fcore", "@flashist/flibs", "@flashist/fconsole", "@flashist/appframework"]
-
-                var removePackageLock = async () => {
-                    console.log("Removing the package-lock file");
-                    if (fs.existsSync('./package-lock.json')) {
-                        fs.unlinkSync('./package-lock.json');
-                    }
-                }
-
-                var removeNodeModules = async () => {
-                    console.log("Removing the node_modules folder");
-                    if (fs.existsSync('./node_modules')) {
-                        fs.rmSync('./node_modules', { recursive: true, force: true });
-                    }
-                }
-
-                var updateLibToVersion = async (libName, version) => {
-                    const dependencyVersion = `${libName}@${version}`;
-                    console.log("Installing a module: ", dependencyVersion);
-                    await new Promise(
-                        (resolve) => {
-                            exec(`npm i ${dependencyVersion} --no-save`,
-                                function (err, stdout, stderr) {
-                                    if (err) {
-                                        console.error(err);
-                                    }
-
-                                    resolve();
-                                }
-                            );
-                        }
-                    );
-                }
+                cb(err);
             }
         );
     }
