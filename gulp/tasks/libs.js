@@ -90,20 +90,20 @@ gulp.task(
                 };
 
                 // for (let libNamesConvertedToChoices)
-                let libStartIndex = flashistLibNames.indexOf(startLibName);
-                let libsCount = flashistLibNames.length;
-                for (let libIndex = libStartIndex; libIndex < libsCount; libIndex++) {
-                    let tempLibName = flashistLibNames[libIndex];
+                let libIndex = flashistLibNames.indexOf(startLibName);
+                // let libsCount = flashistLibNames.length;
+                // for (let libIndex = libStartIndex; libIndex < libsCount; libIndex++) {
+                let tempLibName = flashistLibNames[libIndex];
 
-                    // Installing dependencies for the lib
-                    if (libIndex > 0) {
-                        for (let dependencyIndex = libIndex - 1; dependencyIndex < libIndex; dependencyIndex++) {
-                            let tempDependencyName = flashistLibNames[libIndex];
-                            await installDependencyTo(tempLibName, tempDependencyName);
-                        }
+                // Installing dependencies for the lib
+                if (libIndex > 0) {
+                    for (let dependencyIndex = libIndex - 1; dependencyIndex < libIndex; dependencyIndex++) {
+                        let tempDependencyName = flashistLibNames[libIndex];
+                        await installDependencyTo(tempLibName, tempDependencyName);
                     }
-                    await buildAndPublishLib(tempLibName);
                 }
+                await buildAndPublishLib(tempLibName);
+                // }
 
                 resolve();
 
