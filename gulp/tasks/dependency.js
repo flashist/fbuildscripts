@@ -74,7 +74,7 @@ gulp.task(
 
                 // Installing dependencies for the lib
                 if (libIndex > 0) {
-                    for (let dependencyIndex = libIndex - 1; dependencyIndex < libIndex; dependencyIndex++) {
+                    for (let dependencyIndex = 0; dependencyIndex < libIndex; dependencyIndex++) {
                         let tempDependencyName = flashistLibNames[dependencyIndex];
                         await installDependencyTo(tempLibName, tempDependencyName);
                     }
