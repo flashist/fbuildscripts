@@ -1,15 +1,13 @@
+// import { chooseLibName } from "./libs";
+
 var gulp = require("gulp");
 var exec = require("child_process").exec;
 var prompts = require("prompts");
 var fs = require('fs');
 var path = require('path');
 
-// var requireDir = require("require-dir");
-// var tasks = requireDir("./");
-// var suggestByAutocompleteScore = tasks.suggestByAutocompleteScore;
-var suggestByAutocompleteScore = require("./interactive-prompts").suggestByAutocompleteScore
-
-const dependencyLibNames = ["@flashist/fbuildscripts", "@flashist/fcore", "@flashist/flibs", "@flashist/fconsole", "@flashist/appframework"]
+// import { chooseLibName } from "./libs";
+var chooseLibName = require("./libs").chooseLibName;
 
 var removePackageLock = async () => {
     console.log("Removing the package-lock file");
@@ -123,19 +121,7 @@ gulp.task(
     "npm:dependencies:update",
     async (cb) => {
 
-        const libNamesConvertedToChoices = dependencyLibNames.map(
-            (singleLibName) => {
-                return { title: singleLibName }
-            }
-        );
-
-        const libResponse = await prompts({
-            type: 'autocomplete',
-            name: 'value',
-            message: 'Choose the lib to update',
-            choices: libNamesConvertedToChoices,
-            suggest: suggestByAutocompleteScore
-        });
+        const libName = await chooseLibName();
 
         const versionResponse = await prompts({
             type: 'text',
@@ -153,7 +139,7 @@ gulp.task(
         //         cb(err);
         //     }
         // );
-        await updateLibToVersion(libResponse.value, versionResponse.value);
+        await updateLibToVersion(libName, versionResponse.value);
         cb();
     }
 );
