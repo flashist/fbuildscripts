@@ -116,59 +116,59 @@ gulp.task(
     }
 );
 
-gulp.task(
-    "npm:dependencies:update",
-    async (cb) => {
+// gulp.task(
+//     "npm:dependencies:update",
+//     async (cb) => {
 
-        const libName = await chooseLibName();
+//         const libName = await chooseLibName();
 
-        const versionResponse = await prompts({
-            type: 'text',
-            name: 'value',
-            initial: 'latest',
-            message: 'Choose the version to install'
-        });
+//         const versionResponse = await prompts({
+//             type: 'text',
+//             name: 'value',
+//             initial: 'latest',
+//             message: 'Choose the version to install'
+//         });
 
-        // const dependencyVersion = `${libResponse.value}@${versionResponse.value}`;
-        // console.log("Version to install: ", dependencyVersion);
-        // return exec(`npm i ${dependencyVersion} --no-save`,
-        //     function (err, stdout, stderr) {
-        //         console.log(stdout);
-        //         console.log(stderr);
-        //         cb(err);
-        //     }
-        // );
-        await updateLibToVersion(libName, versionResponse.value);
-        cb();
-    }
-);
+//         // const dependencyVersion = `${libResponse.value}@${versionResponse.value}`;
+//         // console.log("Version to install: ", dependencyVersion);
+//         // return exec(`npm i ${dependencyVersion} --no-save`,
+//         //     function (err, stdout, stderr) {
+//         //         console.log(stdout);
+//         //         console.log(stderr);
+//         //         cb(err);
+//         //     }
+//         // );
+//         await updateLibToVersion(libName, versionResponse.value);
+//         cb();
+//     }
+// );
 
-gulp.task(
-    "npm:all-dependencies:update-to-latest",
-    async (cb) => {
+// gulp.task(
+//     "npm:all-dependencies:update-to-latest",
+//     async (cb) => {
 
-        await removePackageLock();
+//         await removePackageLock();
 
-        const packageJson = JSON.parse(fs.readFileSync('./package.json'));
+//         const packageJson = JSON.parse(fs.readFileSync('./package.json'));
 
-        const allDependencyKeys = [];
-        if (packageJson.dependencies) {
-            allDependencyKeys.push(...Object.keys(packageJson.dependencies));
-        }
-        if (packageJson.devDependencies) {
-            allDependencyKeys.push(...Object.keys(packageJson.devDependencies));
-        }
+//         const allDependencyKeys = [];
+//         if (packageJson.dependencies) {
+//             allDependencyKeys.push(...Object.keys(packageJson.dependencies));
+//         }
+//         if (packageJson.devDependencies) {
+//             allDependencyKeys.push(...Object.keys(packageJson.devDependencies));
+//         }
 
-        for (let singleDependencyKey of allDependencyKeys) {
-            if (singleDependencyKey.indexOf("@flashist") !== -1) {
-                await updateLibToVersion(singleDependencyKey, "latest");
-            }
-        }
+//         for (let singleDependencyKey of allDependencyKeys) {
+//             if (singleDependencyKey.indexOf("@flashist") !== -1) {
+//                 await updateLibToVersion(singleDependencyKey, "latest");
+//             }
+//         }
 
-        // const libNamesCount = dependencyLibNames.length;
-        // for (let libNameIndex = 0; libNameIndex < libNamesCount; libNameIndex++) {
-        //     const singleLibName = dependencyLibNames[libNameIndex];
-        //     await updateLibToVersion(singleLibName, "latest");
-        // }
-    }
-);
+//         // const libNamesCount = dependencyLibNames.length;
+//         // for (let libNameIndex = 0; libNameIndex < libNamesCount; libNameIndex++) {
+//         //     const singleLibName = dependencyLibNames[libNameIndex];
+//         //     await updateLibToVersion(singleLibName, "latest");
+//         // }
+//     }
+// );

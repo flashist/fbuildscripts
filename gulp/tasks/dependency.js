@@ -1,13 +1,9 @@
-// var requireDir = require("require-dir");
-// var tasks = requireDir("./");
-// var suggestByAutocompleteScore = tasks.suggestByAutocompleteScore;
-// var suggestByAutocompleteScore = require("./interactive-prompts").suggestByAutocompleteScore
-
 var gulp = require("gulp");
 var exec = require("child_process").exec;
 var prompts = require("prompts");
+var fs = require("fs");
+
 var suggestByAutocompleteScore = require("./interactive-prompts").suggestByAutocompleteScore
-// import gulp from "gulp";
 
 const flashistLibNames = [
     "@flashist/fbuildscripts",
@@ -44,38 +40,21 @@ gulp.task(
     async () => {
         return new Promise(
             async (resolve) => {
-                const curLibConfig = require("./package.json")
+                const curLibConfig = JSON.parse(fs.readFileSync('./package.json'));
                 const curLibName = curLibConfig.name;
-                const curLibFolder = getLibFolderNameFromLibName(curLibName);
-
-                // const buildAndPublishExec = async () => {
-                //     return new Promise(
-                //         (execPromiseResolve) => {
-                //             const tempExecText = `cd ../${curLibFolder} && npx gulp build-and-publish-module`;
-                //             // const tempExecText = `ls`;
-                //             console.log("Exec text: ", tempExecText);
-                //             exec(
-                //                 tempExecText,
-                //                 function (err, stdout, stderr) {
-                //                     console.log(stdout);
-                //                     console.log(stderr);
-                //                     // cb(err);
-                //                     execPromiseResolve(err);
-                //                 }
-                //             );
-                //         }
-                //     )
-                // };
 
                 const installDependencyTo = async (libName, dependencyName) => {
+                    console.log("installDependencyTo __ libName: ", libName, " | dependencyName: ", dependencyName);
                     return new Promise(
                         (execDependencyPromise) => {
                             const libFolderName = getLibFolderNameFromLibName(libName);
+
                             const dependencyFolderName = getLibFolderNameFromLibName(dependencyName);
-                            const dependencyVersion = require(`../${dependencyFolderName}.package.json`).version;
+                            const dependencyConfig = JSON.parse(fs.readFileSync(`../${dependencyFolderName}/package.json`));
+                            const dependencyVersion = dependencyConfig.version;
 
                             const tempExecText = `cd ../${libFolderName} && npm i ${dependencyName}@${dependencyVersion}`;
-                            // const tempExecText = `ls`;
+
                             console.log("Exec text: ", tempExecText);
                             exec(
                                 tempExecText,
@@ -90,31 +69,18 @@ gulp.task(
                     )
                 };
 
-                // for (let libNamesConvertedToChoices)
                 let libIndex = flashistLibNames.indexOf(curLibName);
-                // let libsCount = flashistLibNames.length;
-                // for (let libIndex = libStartIndex; libIndex < libsCount; libIndex++) {
                 let tempLibName = flashistLibNames[libIndex];
 
                 // Installing dependencies for the lib
                 if (libIndex > 0) {
                     for (let dependencyIndex = libIndex - 1; dependencyIndex < libIndex; dependencyIndex++) {
-                        let tempDependencyName = flashistLibNames[libIndex];
+                        let tempDependencyName = flashistLibNames[dependencyIndex];
                         await installDependencyTo(tempLibName, tempDependencyName);
                     }
                 }
-                // await buildAndPublishExec(tempLibName);
-                // }
 
                 resolve();
-
-                // return exec('npm version patch && npx gulp build && cd ./dist && npm publish',
-                //     function (err, stdout, stderr) {
-                //         console.log(stdout);
-                //         console.log(stderr);
-                //         cb(err);
-                //     }
-                // );
             }
         );
     }
