@@ -9,7 +9,7 @@ var prompts = require("prompts");
 var suggestByAutocompleteScore = require("./interactive-prompts").suggestByAutocompleteScore
 // import gulp from "gulp";
 
-const dependencyLibNames = [
+const flashistLibNames = [
     "@flashist/fbuildscripts",
     "@flashist/fcore",
     "@flashist/flibs",
@@ -17,7 +17,7 @@ const dependencyLibNames = [
     "@flashist/appframework"
 ];
 
-const libNamesConvertedToChoices = dependencyLibNames.map(
+const libNamesConvertedToChoices = flashistLibNames.map(
     (singleLibName) => {
         return { title: singleLibName }
     }
@@ -64,13 +64,44 @@ gulp.task(
                             );
                         }
                     )
-                }
+                };
+
+                const installDependencyTo = async (libName, dependencyName) => {
+                    return new Promise(
+                        (execDependencyPromise) => {
+                            const libFolderName = getLibFolderNameFromLibName(libName);
+                            const dependencyFolderName = getLibFolderNameFromLibName(dependencyName);
+                            const dependencyVersion = require(`../${dependencyFolderName}.package.json`).version;
+
+                            const tempExecText = `cd ../${libFolderName} && npm i ${dependencyName}@${dependencyVersion}`;
+                            // const tempExecText = `ls`;
+                            console.log("Exec text: ", tempExecText);
+                            exec(
+                                tempExecText,
+                                function (err, stdout, stderr) {
+                                    console.log(stdout);
+                                    console.log(stderr);
+                                    // cb(err);
+                                    execDependencyPromise(err);
+                                }
+                            );
+                        }
+                    )
+                };
 
                 // for (let libNamesConvertedToChoices)
-                let libStartIndex = dependencyLibNames.indexOf(startLibName);
-                let libsCount = dependencyLibNames.length;
+                let libStartIndex = flashistLibNames.indexOf(startLibName);
+                let libsCount = flashistLibNames.length;
                 for (let libIndex = libStartIndex; libIndex < libsCount; libIndex++) {
-                    let tempLibName = dependencyLibNames[libIndex];
+                    let tempLibName = flashistLibNames[libIndex];
+
+                    // Installing dependencies for the lib
+                    if (libIndex > 0) {
+                        for (let dependencyIndex = libIndex - 1; dependencyIndex < libIndex; dependencyIndex++) {
+                            let tempDependencyName = flashistLibNames[libIndex];
+                            await installDependencyTo(tempLibName, tempDependencyName);
+                        }
+                    }
                     await buildAndPublishLib(tempLibName);
                 }
 
@@ -89,7 +120,7 @@ gulp.task(
 );
 
 // EXPORTS
-exports.dependencyLibNames = dependencyLibNames;
+exports.dependencyLibNames = flashistLibNames;
 exports.libNamesConvertedToChoices = libNamesConvertedToChoices;
 exports.chooseLibName = chooseLibName;
 exports.getLibFolderNameFromLibName = getLibFolderNameFromLibName;
