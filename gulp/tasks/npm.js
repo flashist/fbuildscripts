@@ -6,8 +6,7 @@ var prompts = require("prompts");
 var fs = require('fs');
 var path = require('path');
 
-// import { chooseLibName } from "./libs";
-var chooseLibName = require("./libs").chooseLibName;
+var chooseLibName = require("./dependency").chooseLibName;
 
 var removePackageLock = async () => {
     console.log("Removing the package-lock file");

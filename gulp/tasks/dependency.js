@@ -40,31 +40,32 @@ function getLibFolderNameFromLibName(libName) {
 }
 
 gulp.task(
-    'multipleLibs:build',
+    'dependency:update-all',
     async () => {
         return new Promise(
             async (resolve) => {
-                const startLibName = await chooseLibName();
+                const curLibConfig = require("./package.json")
+                const curLibName = curLibConfig.name;
+                const curLibFolder = getLibFolderNameFromLibName(curLibName);
 
-                const buildAndPublishLib = async (libName) => {
-                    return new Promise(
-                        (execPromiseResolve) => {
-                            const libFolderName = getLibFolderNameFromLibName(libName);
-                            const tempExecText = `cd ../${libFolderName} && npx gulp build-and-publish-module`;
-                            // const tempExecText = `ls`;
-                            console.log("Exec text: ", tempExecText);
-                            exec(
-                                tempExecText,
-                                function (err, stdout, stderr) {
-                                    console.log(stdout);
-                                    console.log(stderr);
-                                    // cb(err);
-                                    execPromiseResolve(err);
-                                }
-                            );
-                        }
-                    )
-                };
+                // const buildAndPublishExec = async () => {
+                //     return new Promise(
+                //         (execPromiseResolve) => {
+                //             const tempExecText = `cd ../${curLibFolder} && npx gulp build-and-publish-module`;
+                //             // const tempExecText = `ls`;
+                //             console.log("Exec text: ", tempExecText);
+                //             exec(
+                //                 tempExecText,
+                //                 function (err, stdout, stderr) {
+                //                     console.log(stdout);
+                //                     console.log(stderr);
+                //                     // cb(err);
+                //                     execPromiseResolve(err);
+                //                 }
+                //             );
+                //         }
+                //     )
+                // };
 
                 const installDependencyTo = async (libName, dependencyName) => {
                     return new Promise(
@@ -90,7 +91,7 @@ gulp.task(
                 };
 
                 // for (let libNamesConvertedToChoices)
-                let libIndex = flashistLibNames.indexOf(startLibName);
+                let libIndex = flashistLibNames.indexOf(curLibName);
                 // let libsCount = flashistLibNames.length;
                 // for (let libIndex = libStartIndex; libIndex < libsCount; libIndex++) {
                 let tempLibName = flashistLibNames[libIndex];
@@ -102,7 +103,7 @@ gulp.task(
                         await installDependencyTo(tempLibName, tempDependencyName);
                     }
                 }
-                await buildAndPublishLib(tempLibName);
+                // await buildAndPublishExec(tempLibName);
                 // }
 
                 resolve();
